@@ -18,4 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/employees', [employeesController::class, 'index']);
+Route::get('/employees', [employeesController::class, 'index'])->name('employees.index');
+Route::get('/employees/create', [employeesController::class, 'create'])->name('employees.create');
+Route::post('/employees', [employeesController::class, 'store'])->name('employees.store');

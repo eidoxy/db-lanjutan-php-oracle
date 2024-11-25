@@ -7,9 +7,11 @@
   <title>@yield('title')</title>
 
   <!-- General CSS Files -->
-  <link rel="stylesheet" href="{{ asset('assets/modules/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/modules/css/all.min.css') }}">
-
+  {{-- <link rel="stylesheet" href="{{ asset('assets/modules/css/bootstrap.min.css') }}"> --}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/modules/css/all.min.css') }}"> --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.5.0/css/all.min.css" integrity="sha512-QfDd74mlg8afgSqm3Vq2Q65e9b3xMhJB4GZ9OcHDVy1hZ6pqBJPWWnMsKDXM7NINoKqJANNGBuVRIpIJ5dogfA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <!-- CSS Libraries -->
 
   <!-- Template CSS -->
@@ -45,6 +47,9 @@
         <section class="section">
           <div class="section-header">
             <h1>@yield('header')</h1>
+            <div class="section-header-breadcrumb">
+              @yield('breadcrumb')
+            </div>
           </div>
 
           <div class="section-body">
@@ -68,8 +73,7 @@
   <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
   <!-- JS Libraies -->
-
-  <!-- Page Specific JS File -->
+  @stack('scripts')
 
   <!-- Template JS File -->
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
