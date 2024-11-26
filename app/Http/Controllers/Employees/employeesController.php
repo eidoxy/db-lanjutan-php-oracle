@@ -14,9 +14,12 @@ class employeesController extends Controller
             SELECT
                 e.employee_id,
                 e.first_name || ' ' || e.last_name AS full_name,
+                e.first_name,
+                e.last_name,
                 e.email,
                 e.phone_number,
                 e.hire_date,
+                e.job_id,
                 j.job_title,
                 e.salary,
                 e.commission_pct,
@@ -49,7 +52,11 @@ class employeesController extends Controller
         ->select('department_id', 'department_name')
         ->get();
 
-        return view('employees.create', compact('managers', 'departments'));
+        $jobs = DB::table('jobs')
+        ->select('job_id', 'job_title')
+        ->get();
+
+        return view('employees.create', compact('managers', 'departments', 'jobs'));
     }
 
     public function store(Request $request)
@@ -104,6 +111,62 @@ class employeesController extends Controller
         ->select('department_id', 'department_name')
         ->get();
 
-        return view('employees.edit', compact('employee', 'managers', 'departments'));
+        $jobs = DB::table('jobs')
+        ->select('job_id', 'job_title')
+        ->get();
+
+        $employee_job = DB::table('jobs')
+        ->where('job_id', $employee->job_id)
+        ->first();
+
+        $employee_department = DB::table('departments')
+        ->where('department_id', $employee->department_id)
+        ->first();
+
+        return view('employees.edit', compact('employee', 'managers', 'departments', 'employee_job', 'jobs', 'employee_department'));
+    }
+
+    public function update(Request $request)
+    {
+        $sql = "
+            BEGIN
+                manage_employees(
+                    v_employee_id => :employee_id,
+                    v_salary => :salary,
+                    v_manager_id => :manager_id,
+                    v_operation => 'UPDATE'
+                );
+            END;
+        ";
+
+        DB::connection()->statement($sql, [
+            'employee_id' => $request->employee_id,
+            'salary' => $request->salary,
+            'manager_id' => $request->manager_id,
+        ]);
+
+        return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
+    }
+
+    public function destroy($first_name, $last_name, $job_id)
+    {
+        $sql = "
+            BEGIN
+                manage_employees(
+                    v_first_name => :first_name,
+                    v_last_name => :last_name,
+                    v_job_id => :job_id,
+                    v_operation => 'DELETE'
+                );
+            END;
+        ";
+
+        DB::connection()->statement($sql, [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'job_id' => $job_id,
+        ]);
+
+        return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
 }

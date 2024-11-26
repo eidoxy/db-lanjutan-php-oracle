@@ -49,27 +49,11 @@
                             <input type="date" name="hire_date" class="form-control" required>
                         </div>
                         <div class="col-md-6 col-lg-6 form-group">
-                            <label for="job_id">Job ID</label>
+                            <label for="job_id">Job</label>
                             <select name="job_id" class="form-control" required>
-                                <option value="AD_PRES">AD_PRES</option>
-                                <option value="AD_VP">AD_VP</option>
-                                <option value="AD_ASST">AD_ASST</option>
-                                <option value="FI_MGR">FI_MGR</option>
-                                <option value="FI_ACCOUNT">FI_ACCOUNT</option>
-                                <option value="AC_MGR">AC_MGR</option>
-                                <option value="AC_ACCOUNT">AC_ACCOUNT</option>
-                                <option value="SA_MAN">SA_MAN</option>
-                                <option value="SA_REP">SA_REP</option>
-                                <option value="PU_MAN">PU_MAN</option>
-                                <option value="PU_CLERK">PU_CLERK</option>
-                                <option value="ST_MAN">ST_MAN</option>
-                                <option value="ST_CLERK">ST_CLERK</option>
-                                <option value="SH_CLERK">SH_CLERK</option>
-                                <option value="IT_PROG">IT_PROG</option>
-                                <option value="MK_MAN">MK_MAN</option>
-                                <option value="MK_REP">MK_REP</option>
-                                <option value="HR_REP">HR_REP</option>
-                                <option value="PR_REP">PR_REP</option>
+                                @foreach($jobs as $job)
+                                    <option value="{{ $job->job_id }}">{{ $job->job_title }}</option>
+                                @endforeach
                             </select>
                         </div>
                       </div>

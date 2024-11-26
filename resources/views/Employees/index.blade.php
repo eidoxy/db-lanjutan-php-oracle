@@ -51,8 +51,12 @@
                   <td>{{ $emp->manager_name == NULL ? 'NULL' : $emp->manager_name }}</td>
                   <td>{{ $emp->department_name }}</td>
                   <td>
-                    <a href="#" class="btn btn-warning ">Edit</a>
-                    <span class="btn btn-danger">Delete</span>
+                    <a href="{{ route('employees.edit', ['employee_id' => $emp->employee_id]) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ route('employees.destroy', ['first_name' => $emp->first_name, 'last_name' => $emp->last_name, 'job_id' => $emp->job_id]) }}" method="POST" class="d-inline">
+                      @csrf
+                      @method('DELETE')
+                      <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
                   </td>
                 </tr>
               @endforeach
